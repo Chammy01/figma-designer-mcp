@@ -1,5 +1,5 @@
 {
-  "status": "CANDIDATE_NOT_APPROVED",
+  "status": "NATIVE_ACCEPTANCE_VERIFIED",
   "runtimeVersion": "1.1.0",
   "bridgeProtocolVersion": 2,
   "cases": {
@@ -83,10 +83,17 @@
   ],
   "limitations": [
     "Receipts are bounded, single active plugin; not unbounded exactly-once",
-    "No fileKey in this environment; plugin-session identity limits duplicate binding after reload",
-    "Old OpenCode runtime reclaimed default bridge during server restart; final owned-leader validation pending",
-    "Post-repair native stage progress and full standalone adoption remain pending"
+    "No fileKey in this environment; plugin-session identity limits duplicate binding after reload"
   ],
   "statefulVariables": "HOLD",
-  "beta3": "UNCHANGED"
+  "beta3": "UNCHANGED",
+  "finalProgress": {
+    "verified": true,
+    "cleanupOperationId": "e4870c35-b864-4d98-b388-f90a8b9bafa5",
+    "elapsedMs": 32076,
+    "protectedFingerprintsRestored": true,
+    "additionalDisposablePageRemoved": "1036:770",
+    "timeoutValues": "UNCHANGED"
+  },
+  "leaderRecovery": "External legacy OpenCode session closed; owned MCP 1.1.0 regained port 1994 leadership; no mutation replay"
 }

@@ -1,7 +1,7 @@
 # Reliability hardening — V1.4.3B
 
-Candidate implementation; native acceptance and standalone runtime approval are
-pending. This document describes the candidate contract, not a released runtime.
+Native acceptance is verified; standalone runtime adoption is tracked separately.
+This is an unreleased source contract, not a public stable release announcement.
 
 Figma Designer MCP 1.1.0 adds bridge protocol 2. The original 106 tools retain
 their required inputs; 72 document-mutating tools receive optional reliability
@@ -168,4 +168,7 @@ afterward. Protected page/source fingerprints restore exactly. Initial page crea
 and cleanup responses timed out and were recovered by receipt lookup, never replay.
 Figma rejected deleting the active audit page; receipt/revision inspection confirmed
 no change before switching pages and submitting a distinct cleanup operation.
-Final candidate activation/build/standalone adoption remain shipping gates.
+The old external OpenCode runtime that reclaimed port 1994 during restart was
+closed, and the owned 1.1.0 process regained leadership. Final native cleanup,
+progress delivery and matching protected fingerprints were verified afterward.
+Standalone adoption and exact-commit build/CI remain separate shipping gates.
