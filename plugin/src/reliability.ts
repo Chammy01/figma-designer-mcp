@@ -110,12 +110,16 @@ export function createReliability(api: any) {
     const tree = await walk(page);
     const resources: any = {variables:[],collections:[],styles:[]};
     if(api.variables) {
-      for(const v of await api.variables.getLocalVariablesAsync()) resources.variables.push({id:v.id,name:v.name,type:v.resolvedType,collectionId:v.variableCollectionId,valuesByMode:json(v.valuesByMode)});
-      for(const c of await api.variables.getLocalVariableCollectionsAsync()) resources.collections.push({id:c.id,name:c.name,modes:json(c.modes),defaultModeId:c.defaultModeId});
+      // Await before iterating: Figma's compiler rejects for-of with a yielded iterable.
+      const variables = await api.variables.getLocalVariablesAsync();
+      for(const v of variables) resources.variables.push({id:v.id,name:v.name,type:v.resolvedType,collectionId:v.variableCollectionId,valuesByMode:json(v.valuesByMode)});
+      const collections = await api.variables.getLocalVariableCollectionsAsync();
+      for(const c of collections) resources.collections.push({id:c.id,name:c.name,modes:json(c.modes),defaultModeId:c.defaultModeId});
     }
     for(const method of ["getLocalPaintStylesAsync","getLocalTextStylesAsync","getLocalEffectStylesAsync","getLocalGridStylesAsync"]) {
       if(!api[method])continue;
-      for(const s of await api[method]()) {
+      const styles = await api[method]();
+      for(const s of styles) {
         const out:any={id:s.id,name:s.name};
         for(const f of ["paints","effects","layoutGrids",...fields])if(s[f]!==undefined)out[f]=json(s[f]);
         resources.styles.push(out);

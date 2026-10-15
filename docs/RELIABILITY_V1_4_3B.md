@@ -136,3 +136,16 @@ Live results are recorded separately in the standalone integration report. Unit
 fixtures never substitute for native connection, response-loss, reconnect or
 component/prototype acceptance. No public stable release/Beta 4 is authorized.
 V1.2.5 remains HOLD; variable CRUD behavior does not enable conditional prototypes.
+
+### Plugin compiler compatibility
+
+The first candidate failed native startup with `stack underflow (op=113, pc=139)`.
+The ES2015 build lowered `for (const item of await read())` to a generator with
+`yield` in the iterable expression. An isolated QuickJS 0.23.0 WASM probe reproduced
+the bundle failure at pc=139 (opcode 132 in that engine build). Awaiting each resource
+list before its loop removes the compiler failure without changing revision inputs.
+The rebuilt full bundle starts in that engine and in Figma Desktop: native health
+reports plugin/server 1.1.0, protocol 2, COMPATIBLE and receipt storage READY.
+Source AST regression tests prevent this pattern recurring; no build target or
+runtime dependency was changed. Broader native write/reconnect acceptance remains
+separate from this startup repair.
