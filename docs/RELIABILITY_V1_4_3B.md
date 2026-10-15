@@ -149,3 +149,19 @@ reports plugin/server 1.1.0, protocol 2, COMPATIBLE and receipt storage READY.
 Source AST regression tests prevent this pattern recurring; no build target or
 runtime dependency was changed. Broader native write/reconnect acceptance remains
 separate from this startup repair.
+
+Revision collection follows the existing collector's field eligibility: vector
+outlines are read only for VECTOR/BOOLEAN_OPERATION, and variant definitions come
+from the parent set. This avoids unnecessary text glyph-outline computation and
+invalid native getters while retaining typography runs and vector sensitivity.
+Mutations emit existing progress_update envelopes after pre-write revision and
+after dispatch, before post-write inspection. Existing timeout values are unchanged.
+
+Native probes verified duplicate/conflict/stale guard behavior, component source
+checks, reaction-count guards, controlled committed-response loss and persisted
+receipt lookup after plugin reload. All probes used one disposable page, removed
+afterward. Protected page/source fingerprints restore exactly. Initial page create
+and cleanup responses timed out and were recovered by receipt lookup, never replay.
+Figma rejected deleting the active audit page; receipt/revision inspection confirmed
+no change before switching pages and submitting a distinct cleanup operation.
+Final candidate activation/build/standalone adoption remain shipping gates.

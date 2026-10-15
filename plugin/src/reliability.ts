@@ -97,6 +97,10 @@ export function createReliability(api: any) {
       ids.push(n.id);
       const out: any = {id:n.id,type:n.type,name:n.name,parentId:n.parent?.id ?? null};
       for (const field of [...fields,"x","y","width","height","locked","reactions","backgrounds","flowStartingPoints","guides","layoutGrids","fillStyleId","strokeStyleId","effectStyleId","gridStyleId","textStyleId"]) {
+        if (!(field in n)) continue;
+        // Match source collection: do not compute glyph outlines on every text node.
+        if (field === "fillGeometry" && !["VECTOR","BOOLEAN_OPERATION"].includes(n.type)) continue;
+        if (field === "componentPropertyDefinitions" && n.type === "COMPONENT" && n.parent?.type === "COMPONENT_SET") continue;
         const v=n[field]; if (v !== undefined) out[field]=json(v);
       }
       if(n.type==="TEXT"){
@@ -212,6 +216,7 @@ export function createReliability(api: any) {
     try {
       try{before=await revision();receipt.revisionBefore=before.revision;}
       catch{receipt.warnings.push("Pre-write revision unavailable");}
+      api.ui?.postMessage?.({type:"progress_update",requestId:request.requestId,progress:30,message:"Pre-write revision inspected"});
       await conditions(request,before);
       const errorsBefore=errorSequence;
       dispatched=true;response=await dispatch(request);
@@ -236,6 +241,7 @@ export function createReliability(api: any) {
       if(dispatched)receipt.warnings.push("No rollback; dispatched failure may have partial writes. Inspect before continuing.");
       response={...response,type:request.type,requestId:request.requestId,...(softFailure?{}:{error:response?.error??(dispatched?code:receipt.errorCode)})};
     }
+    api.ui?.postMessage?.({type:"progress_update",requestId:request.requestId,progress:70,message:"Mutation dispatch finished; verifying revision"});
     try {
       const after=await revision();receipt.revisionAfter=after.revision;
       if(before&&after.pageId!==before.pageId)receipt.warnings.push("Post-write page scope changed; created-node closure unavailable");
