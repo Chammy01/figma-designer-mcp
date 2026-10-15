@@ -217,6 +217,7 @@ export function createReliability(api: any) {
       try{before=await revision();receipt.revisionBefore=before.revision;}
       catch{receipt.warnings.push("Pre-write revision unavailable");}
       api.ui?.postMessage?.({type:"progress_update",requestId:request.requestId,progress:30,message:"Pre-write revision inspected"});
+      await new Promise(resolve=>setTimeout(resolve,0));
       await conditions(request,before);
       const errorsBefore=errorSequence;
       dispatched=true;response=await dispatch(request);
@@ -242,6 +243,7 @@ export function createReliability(api: any) {
       response={...response,type:request.type,requestId:request.requestId,...(softFailure?{}:{error:response?.error??(dispatched?code:receipt.errorCode)})};
     }
     api.ui?.postMessage?.({type:"progress_update",requestId:request.requestId,progress:70,message:"Mutation dispatch finished; verifying revision"});
+    await new Promise(resolve=>setTimeout(resolve,0));
     try {
       const after=await revision();receipt.revisionAfter=after.revision;
       if(before&&after.pageId!==before.pageId)receipt.warnings.push("Post-write page scope changed; created-node closure unavailable");

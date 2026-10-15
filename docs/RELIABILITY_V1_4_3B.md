@@ -155,7 +155,11 @@ outlines are read only for VECTOR/BOOLEAN_OPERATION, and variant definitions com
 from the parent set. This avoids unnecessary text glyph-outline computation and
 invalid native getters while retaining typography runs and vector sensitivity.
 Mutations emit existing progress_update envelopes after pre-write revision and
-after dispatch, before post-write inspection. Existing timeout values are unchanged.
+after dispatch, before post-write inspection, yielding to deliver those messages
+before further synchronous snapshot work. Existing timeout values are unchanged.
+Final native cleanup returned COMMITTED in approximately 32 seconds with progress
+delivered. Two large-page read revisions were stable (approximately 15–16 seconds
+each); that full-scope cost remains a limitation, not a constant-time revision claim.
 
 Native probes verified duplicate/conflict/stale guard behavior, component source
 checks, reaction-count guards, controlled committed-response loss and persisted
