@@ -20,7 +20,7 @@ try {
  $savedBundle=$env:FIGMA_PLUGIN_BUNDLE
  try { $env:FIGMA_PLUGIN_BUNDLE=Join-Path $root 'plugin/dist/code.js'; Run { bun test scripts/figma-hardening.test.ts scripts/figma-variants.test.ts } } finally { $env:FIGMA_PLUGIN_BUNDLE=$savedBundle }
  $savedExe=$env:MCP_EXECUTABLE
- try { $env:MCP_EXECUTABLE=Join-Path $OutputRoot 'bin/figma-designer-mcp.exe'; Run { node --test scripts/catalog.test.mjs } } finally { $env:MCP_EXECUTABLE=$savedExe }
+ try { $env:MCP_EXECUTABLE=Join-Path $OutputRoot 'bin/figma-designer-mcp.exe'; Run { node --test scripts/catalog.test.mjs scripts/identity.test.mjs } } finally { $env:MCP_EXECUTABLE=$savedExe }
  New-Item -ItemType Directory -Path (Join-Path $OutputRoot 'plugin/dist') | Out-Null
  Copy-Item plugin/manifest.json (Join-Path $OutputRoot 'plugin/manifest.json')
  Copy-Item plugin/dist/code.js,plugin/dist/index.html (Join-Path $OutputRoot 'plugin/dist')

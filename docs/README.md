@@ -37,7 +37,7 @@ Current build: **v1.3.1** — fixes 4 bugs caught in real-world testing (HUG siz
 cd plugin && bun install && bun run build
 
 # In the project root
-go build ./cmd/figma-mcp-go
+go build -o bin/figma-designer-mcp.exe ./cmd/figma-mcp-go
 
 # Open Figma Desktop, run the plugin, then point your agent at the binary.
 ```
