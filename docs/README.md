@@ -1,4 +1,4 @@
-# figma-mcp-go (fork) — Documentation
+# Figma Designer MCP — Documentation
 
 This `docs/` folder is structured so that any agent (Claude Code, Claude Cowork, Cursor, Copilot, generic LLMs with MCP support) can pick this up as a skill — or a human can read it linearly.
 
