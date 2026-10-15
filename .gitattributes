@@ -1,5 +1,4 @@
-* text=auto
-*.go text eol=lf
-*.ts text eol=lf
-*.json text eol=lf
-*.lock text eol=lf
+# Preserve the approved import byte/EOL conventions; do not mass-normalize source.
+* -text
+*.exe binary
+*.png binary
